@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock Scanner</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <h1>Stock Scanner</h1>
+          <p>Filter U.S. listings by price, volume, percent change, VWAP, daily EMAs, market cap, and sector.</p>
+        </div>
+        <button class="icon-button" id="refreshButton" title="Refresh results" aria-label="Refresh results">
+          <span aria-hidden="true">↻</span>
+        </button>
+      </header>
+
+      <section class="controls" aria-label="Scanner criteria">
+        <label>
+          Search
+          <input id="query" type="search" placeholder="Symbol or company" autocomplete="off" />
+        </label>
+
+        <label>
+          Sector
+          <select id="sector">
+            <option value="">All sectors</option>
+          </select>
+        </label>
+
+        <label>
+          Min Price
+          <input id="minPrice" type="number" min="0" step="0.01" placeholder="0" />
+        </label>
+
+        <label>
+          Max Price
+          <input id="maxPrice" type="number" min="0" step="0.01" placeholder="Any" />
+        </label>
+
+        <label>
+          Min Volume
+          <input id="minVolume" type="number" min="0" step="1000" value="1000000" />
+        </label>
+
+        <label>
+          Min % Change
+          <input id="minChange" type="number" step="0.1" placeholder="-10" />
+        </label>
+
+        <label>
+          Max % Change
+          <input id="maxChange" type="number" step="0.1" placeholder="Any" />
+        </label>
+
+        <label class="check-field">
+          VWAP
+          <span class="check-control">
+            <input id="aboveVwap" type="checkbox" />
+            <span>Above today's VWAP</span>
+          </span>
+        </label>
+
+        <label class="check-field">
+          Daily EMA
+          <span class="check-control">
+            <input id="ema9AboveEma21" type="checkbox" />
+            <span>Daily EMA 9 &gt; 21</span>
+          </span>
+        </label>
+
+        <label>
+          Min Market Cap
+          <select id="minMarketCap">
+            <option value="">Any</option>
+            <option value="300000000">300M+</option>
+            <option value="2000000000">2B+</option>
+            <option value="10000000000">10B+</option>
+            <option value="50000000000">50B+</option>
+            <option value="200000000000">200B+</option>
+          </select>
+        </label>
+
+        <label>
+          Sort By
+          <select id="sortBy">
+            <option value="volume">Volume</option>
+            <option value="percentChange">% Change</option>
+            <option value="price">Price</option>
+            <option value="vwap">VWAP</option>
+            <option value="vwapDistancePercent">% From VWAP</option>
+            <option value="ema9">Daily EMA 9</option>
+            <option value="ema21">Daily EMA 21</option>
+            <option value="marketCap">Market Cap</option>
+            <option value="symbol">Symbol</option>
+          </select>
+        </label>
+
+        <label>
+          Direction
+          <select id="direction">
+            <option value="desc">High to low</option>
+            <option value="asc">Low to high</option>
+          </select>
+        </label>
+
+        <label>
+          Results
+          <select id="limit">
+            <option value="50">50</option>
+            <option value="100" selected>100</option>
+            <option value="250">250</option>
+            <option value="500">500</option>
+          </select>
+        </label>
+
+        <div class="actions">
+          <button id="scanButton">Scan</button>
+          <button class="secondary" id="exportButton">Export CSV</button>
+        </div>
+      </section>
+
+      <section class="status-row" aria-live="polite">
+        <div>
+          <strong id="resultCount">0</strong>
+          <span>matches</span>
+        </div>
+        <div id="sourceStatus">Waiting to scan</div>
+      </section>
+
+      <section class="table-wrap" aria-label="Scanner results">
+        <table>
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Company</th>
+              <th>Price</th>
+              <th>VWAP</th>
+              <th>% vs VWAP</th>
+              <th>Daily EMA 9</th>
+              <th>Daily EMA 21</th>
+              <th>Change</th>
+              <th>% Change</th>
+              <th>Volume</th>
+              <th>Market Cap</th>
+              <th>Sector</th>
+              <th>Industry</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody">
+            <tr>
+              <td colspan="11" class="empty">Run a scan to load matching stocks.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
